@@ -36,11 +36,6 @@
         themeCss();
     });
 
-    // Task for building services UI
-    gulp.task('services', function() {
-        services();
-    });
-
     // Define task batch processes (a task that runs an array of tasks)
     gulp.task('default', ['theme']);
     gulp.task('js', ['themeJs']);
