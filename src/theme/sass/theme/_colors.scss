@@ -1,0 +1,221 @@
+/****** COLORS **********/
+
+/* anchors */
+a { color: $primary; }
+a:hover, a:focus, a:active { color: $primary-dark; }
+.active a, .active a:hover { color: $secondary-light; }
+
+/* backgrounds */
+.background-white { background: $white; }
+.background-black { background: $black; }
+.background-primary { background: $primary; }
+.background-primary-lightest { background: $primary-lightest; }
+.background-primary-light { background: $primary-light; }
+.background-primary-dark { background: $primary-dark; }
+.background-primary-darkest { background: $primary-darkest; }
+.background-secondary { background: $secondary; }
+.background-secondary-light { background: $secondary-light; }
+.background-secondary-dark { background: $secondary-dark; }
+.background-secondary-compliment { background: $secondary-compliment; }
+.background-tertiary { background: $tertiary; }
+.background-tertiary-compliment { background: $tertiary-compliment; }
+.background-gray-lightest { background: $gray-lightest; }
+.background-gray-light { background: $gray-light; }
+.background-gray { background: $gray; }
+.background-gray-dark { background: $gray-dark; }
+.background-gray-darkest { background: $gray-darkest; }
+
+/* font */
+.color-white { color: $white; }
+.color-black { color: $black; }
+.color-primary { color: $primary; }
+.color-primary-lightest { color: $primary-lightest; }
+.color-primary-light { color: $primary-light; }
+.color-primary-dark { color: $primary-dark; }
+.color-primary-darkest { color: $primary-darkest; }
+.color-secondary { color: $secondary; }
+.color-secondary-compliment { color: $secondary-compliment; }
+.color-tertiary { color: $tertiary; }
+.color-tertiary-compliment { color: $tertiary-compliment; }
+.color-gray-lightest { color: $gray-lightest; }
+.color-gray-light { color: $gray-light; }
+.color-gray { color: $gray; }
+.color-gray-dark { color: $gray-dark; }
+.color-gray-darkest { color: $gray-darkest; }
+/* hovers & focus */
+.color-hover-white:hover,.color-hover-white:focus,
+.color-hover-white:active,.color-hover-white.active,
+.color-hover-white.disabled, .color-hover-white[disabled]{ color: $white; }
+.color-hover-black:hover,.color-hover-black:focus,
+.color-hover-black:active,.color-hover-black.active,
+.color-hover-black.disabled, .color-hover-black[disabled] { color: $black; }
+.color-hover-primary:hover,.color-hover-primary:focus,
+.color-hover-primary:active,.color-hover-primary.active,
+.color-hover-primary.disabled, .color-hover-primary[disabled] { color: $primary; }
+.color-hover-secondary:hover,.color-hover-secondary:focus,
+.color-hover-secondary:active,.color-hover-secondary.active,
+.color-hover-secondary.disabled, .color-hover-secondary[disabled] { color: $secondary-light; }
+.color-hover-tertiary:hover,.color-hover-tertiary:focus,
+.color-hover-tertiary:active,.color-hover-tertiary.active,
+.color-hover-tertiary.disabled, .color-hover-tertiary[disabled] { color: $tertiary; }
+.color-hover-gray-lightest:hover,.color-hover-gray-lightest:focus,
+.color-hover-gray-lightest:active,.color-hover-gray-lightest.active,
+.color-hover-gray-lightest.disabled, .color-hover-gray-lightest[disabled] { color: $gray-lightest; }
+.color-hover-gray-light:hover,.color-hover-gray-light:focus,
+.color-hover-gray-light:active,.color-hover-gray-light.active,
+.color-hover-gray-light.disabled, .color-hover-gray-light[disabled] { color: $gray-light; }
+.color-hover-gray:hover,.color-hover-gray:focus,
+.color-hover-gray:active,.color-hover-gray.active,
+.color-hover-gray.disabled, .color-hover-gray[disabled] { color: $gray; }
+.color-hover-gray-dark:hover,.color-hover-gray-dark:focus,
+.color-hover-gray-dark:active,.color-hover-gray-dark.active,
+.color-hover-gray-dark.disabled, .color-hover-gray-dark[disabled] { color: $gray-dark; }
+.color-hover-gray-darkest:hover,.color-hover-gray-darkest:focus,
+.color-hover-gray-darkest:active,.color-hover-gray-darkest.active,
+.color-hover-gray-darkest.disabled, .color-hover-gray-darkest[disabled] { color: $gray-darkest; }
+
+/* border */
+.border-primary { border-color: $primary; }
+.border-primary-lightest { border-color: $primary-lightest; }
+.border-primary-light { border-color: $primary-light; }
+.border-primary-dark { border-color: $primary-dark; }
+.border-primary-darkest { border-color: $primary-darkest; }
+.border-secondary { border-color: $secondary; }
+.border-secondary-light { border-color: $secondary-light; }
+.border-tertiary { border-color: $tertiary; }
+.border-tertiary-dark { border-color: $tertiary-dark; }
+.border-gray-lightest { border-color: $gray-lightest; }
+.border-gray-light { border-color: $gray-light; }
+.border-gray { border-color: $gray; }
+.border-gray-dark { border-color: $gray-dark; }
+.border-gray-darkest { border-color: $gray-darkest; }
+
+/* gradients */
+.background-gradient-primary {
+  @include gradient($primary-light, $primary, 0%, 100%);
+}
+.background-gradient-primary:hover {
+  background: $primary;
+}
+.background-hover-gradient-primary:hover {
+  color: $white;
+  @include gradient($primary-light, $primary, 0%, 100%);
+}
+.background-gradient-secondary {
+  @include gradient($secondary-light, $secondary, 0%, 100%);
+}
+.background-gradient-secondary:hover {
+  background: $secondary;
+}
+.background-gradient-tertiary {
+  @include gradient($tertiary, $tertiary-dark, 0%, 100%);
+}
+.background-gradient-tertiary:hover {
+  background: $tertiary-dark;
+}
+.background-gradient-gray {
+  @include gradient($gray-lightest, $gray-light, 0%, 100%);
+}
+.background-gradient-gray:hover {
+  background: $gray-light;
+}
+
+/* buttons */
+.btn-default {
+  background: transparent;
+}
+.btn-primary {
+  color: $white;
+  font-weight: bold;
+  border: none;
+  @include box-shadow(0 1px 2px rgba(0,0,0,.2));
+  @include text-shadow(0 -1px 1px rgba(0,0,0,0.5));
+  @include gradient($primary-light, $primary, 0%, 100%);
+}
+.btn-primary:hover, .btn-primary:focus, 
+.btn-primary:active, .btn-primary.active, 
+.btn-primary.disabled, .btn-primary[disabled] {
+  background: $primary; /* Old browsers */
+}
+.btn-secondary {
+  color: $white;
+  font-weight: bold;
+  border: none;
+  @include box-shadow(0 1px 2px rgba(0,0,0,.2));
+  @include text-shadow(0 -1px 1px rgba(0,0,0,0.5));
+  @include gradient($secondary-light, $secondary, 0%, 100%);
+}
+.btn-secondary:hover, .btn-secondary:focus, 
+.btn-secondary:active, .btn-secondary.active, 
+.btn-secondary.disabled, .btn-secondary[disabled] {
+  background: $secondary; /* Old browsers */
+}
+.btn-tertiary {
+  color: $white;
+  font-weight: bold;
+  border: none;
+  @include box-shadow(0 1px 2px rgba(0,0,0,.2));
+  @include text-shadow(0 -1px 1px rgba(0,0,0,0.5));
+  @include gradient($tertiary, $tertiary-dark, 0%, 100%);
+}
+.btn-tertiary:hover, .btn-tertiary:focus, 
+.btn-tertiary:active, .btn-tertiary.active, 
+.btn-tertiary.disabled, .btn-tertiary[disabled] {
+  background: $tertiary-dark; /* Old browsers */
+}
+select, textarea,
+input, .uneditable-input {
+  border-color: $gray;
+}
+textarea:focus, 
+input:focus, 
+.uneditable-input:focus {
+  border-color: $primary;
+}
+.well {
+  background-color: $gray-lightest;
+}
+.dropdown-menu li a .description {
+    color: $gray;
+}
+
+select, textarea,
+input, .uneditable-input {
+  border: 1px solid $gray;
+}
+textarea:focus, 
+input:focus, 
+.uneditable-input:focus {
+  border: 1px solid $primary;
+}
+.well {
+  background-color: $gray-lightest;
+}
+.dropdown-menu li a .description {
+    color: $gray;
+}
+.dropdown-menu {
+  background-color: $white;
+}
+div.navigation-slide ul > li > div.arrow-left {
+  border-right: $white;
+}
+.breadcrumb {
+    background-color: $white;
+}
+.breadcrumb .active {
+    color: $gray-dark;
+}
+.templateSection .sectionHeader {
+    color: $tertiary;
+    background-color: $gray-lightest;
+}
+.templateSection.border {
+    border-color: $gray-light;
+}
+.display-page form#pageQuestionsForm,
+.display-page div#pageQuestionsForm {
+    background-color: $gray-lightest;
+}
+
+/****** END COLORS **********/
