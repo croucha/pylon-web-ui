@@ -50,7 +50,7 @@
      */
     function themeJs () {
         // Build JS using browserify and minify
-        gulp.src('./src/theme/js/main.js')
+        gulp.src('./src/theme/js/build.js')
         .pipe(browserify({
           insertGlobals : true
         }))
@@ -68,7 +68,7 @@
      */
     function themeCss() {
         // Build CSS UI using SASS and minify
-        gulp.src('./src/theme/sass/main.scss')
+        gulp.src('./src/theme/sass/build.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(rename({
             basename: 'application.min',
