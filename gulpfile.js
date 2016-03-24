@@ -3,16 +3,34 @@
     var gulp = require('gulp');
     var browserify = require('gulp-browserify');
     var uglify = require('gulp-uglify');
+    var uglifycss = require('gulp-uglifycss');
     var source = require('vinyl-source-stream');
     var buffer = require('vinyl-buffer');
     var concat = require('gulp-concat');
     var rename = require('gulp-rename');
     var sass = require('gulp-sass');
-    var minifyCss = require('gulp-minify-css');
     var stripCssComments = require('gulp-strip-css-comments');
+    var googleWebFonts = require('gulp-google-webfonts');
     // Define distribution directory by determining if an environment 
     // variable has been set otherwise build in current project.
     var dist = process.env.PYLON_HOME || './dist';
+    var imageFormats = '{gif,png,ico,svg}';
+    var fontFormats = '{ttf,woff,eof,svg,otf,eot}';
+    // Max lin length
+    var maxLineLength = 8000;
+    // Uglify optinos
+    var uglifyJsOptions = {
+        compress: {
+            drop_console: true
+        },
+        output: {
+            max_line_len: maxLineLength
+        }
+    };
+    var uglifyCssOptions = {
+        maxLineLength: maxLineLength,
+        uglyComments: true
+    };
 
     /*----------------------------------------------------------------------------------------------
      * TASKS
@@ -40,6 +58,9 @@
     gulp.task('default', ['theme']);
     gulp.task('js', ['themeJs']);
     gulp.task('css', ['themeCss']);
+    gulp.task('fonts', function() {
+        buildFonts();
+    });
 
     /*----------------------------------------------------------------------------------------------
      * TASK HELPER FUNCTIONS
@@ -59,7 +80,7 @@
             extname: '.js'
         }))
         .pipe(buffer()) // Convert from streaming to buffered vinyl file object
-        .pipe(uglify())
+        .pipe(uglify(uglifyJsOptions))
         .pipe(gulp.dest(dist + '/src/main/webapp/assets/js'));
     }
 
@@ -77,23 +98,40 @@
         .pipe(stripCssComments({
             'all': true // Strip all comments including: /*!
         }))
-        .pipe(minifyCss())
+        .pipe(uglifycss(uglifyCssOptions))
         .pipe(gulp.dest(dist + '/src/main/webapp/assets/css'));
+    }
+
+    /**
+     * Builds google web fonts
+     */
+    function buildFonts() {
+        var options = {};
+        gulp.src('./src/theme/fonts/fonts.list')
+            .pipe(googleWebFonts(options))
+            .pipe(gulp.dest(dist + '/src/main/webapp/assets/fonts'));
     }
 
     /**
      * Copies the theme fonts
      */
     function copyThemeFonts() {
-        gulp.src('./src/theme/fonts/**/*.{ttf,woff,eof,svg,otf,eot}')
-        .pipe(gulp.dest(dist + '/src/main/webapp/assets/fonts'));
+        copy('./src/theme/fonts/**/*.' + fontFormats, dist + '/src/main/webapp/assets/fonts');
     }
 
     /**
      * Copies the theme images
      */
     function copyThemeImages() {
-        gulp.src('./src/theme/img/**/*.{gif,png,ico}')
-        .pipe(gulp.dest(dist + '/src/main/webapp/assets/img'));
+        copy('./src/theme/img/**/*.' + imageFormats, dist + '/src/main/webapp/assets/img');
+    }
+
+    /**
+     * @param {String}
+     * @param {String}
+     */
+    function copy(src, dest) {
+        gulp.src(src)
+            .pipe(gulp.dest(dest));
     }
 })();

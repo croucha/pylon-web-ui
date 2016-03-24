@@ -1,6 +1,6 @@
 // @TODO, document
 document.write();
-(function($, _) {
+module.exports = (function($, _) {
     /*----------------------------------------------------------------------------------------------
      * DOM MANIPULATION AND EVENT REGISTRATION
      *   This section is executed on page load to register events and otherwise manipulate the DOM.
@@ -11,7 +11,7 @@ document.write();
         // Set timezone offset
         //setTimezoneCookie();
         // Set active link
-        app.activeLink('ul[data-nav-active="true"]', 'active');
+        self.activeLink('ul[data-nav-active="true"]', 'active');
         // Add caret to active link of navigation slide
         $('div.navigation-slide ul li').each(function(index, value) {
             if($(this).hasClass('active')) {
@@ -44,13 +44,13 @@ document.write();
                 // Update scroll top information
                 previousScrollTop = $(window).scrollTop();
                 currentScrollTop = '-' + $(window).scrollTop() + 'px';
-                app.startMobileNavigation(contentSlide, $(this).data('target'), currentScrollTop);
+                self.startMobileNavigation(contentSlide, $(this).data('target'), currentScrollTop);
                 // Create one reset display event for resize
                 $(window).one('resize', function() {
                     // If the current active element is a text input, we can assume the soft keyboard is visible
                    if($(document.activeElement).attr('type') !== 'search') {
                         firstToggleClick = true;
-                        app.resetDisplay(contentSlide, contentSlide.data('target'), previousScrollTop);
+                        self.resetDisplay(contentSlide, contentSlide.data('target'), previousScrollTop);
                    }
                 }); 
                 // Create one reset display event on content slide
@@ -58,18 +58,18 @@ document.write();
                     event.preventDefault();
                     event.stopImmediatePropagation();
                     firstToggleClick = true;
-                    app.resetDisplay(this, $(this).data('target'), previousScrollTop); 
+                    self.resetDisplay(this, $(this).data('target'), previousScrollTop); 
                 });
             } else {
                 firstToggleClick = true;
-                app.resetDisplay(contentSlide, $(this).data('target'), previousScrollTop);     
+                self.resetDisplay(contentSlide, $(this).data('target'), previousScrollTop);     
             }
         });    
         // Removes address bar in android and iphone devices
-        if (app.client.isIphone !== undefined && app.client.isIphone ||
-            app.client.isAndroid !== undefined && app.client.isAndroid) {
+        if (self.client.isIphone !== undefined && self.client.isIphone ||
+            self.client.isAndroid !== undefined && self.client.isAndroid) {
             addEventListener('load', function() {
-                setTimeout(app.util.hideUrlBar, 0);
+                setTimeout(self.util.hideUrlBar, 0);
             }, false);
         }
         
@@ -106,7 +106,7 @@ document.write();
         // Get the first api element
         var api = tooltips.qtip('api');
         // Initialize menus
-        app.util.enableHeadMenus({
+        self.util.enableHeadMenus({
             'parentSelector': parentSelector,
             'triggerSelector': triggerSelector,
             'menuSelector': menuSelector,
@@ -129,7 +129,7 @@ document.write();
                    }
                 });
                 // Add custom chrome webkit scroll css for anything other than mac
-                if(app.client.isMac !== undefined && !app.client.isMac) {
+                if(self.client.isMac !== undefined && !self.client.isMac) {
                     $(parentSelector + ' ' + menuSelector).addClass('scroll');
                 }
             },
@@ -184,7 +184,7 @@ document.write();
         // Get the first api element
         var api = tooltips.qtip('api');
         // Initialize menus
-        app.util.enableHeadMenus({
+        self.util.enableHeadMenus({
             'parentSelector': parentSelector,
             'triggerSelector': triggerSelector,
             'menuSelector': menuSelector,
@@ -207,7 +207,7 @@ document.write();
                    }
                 });
                 // Add custom chrome webkit scroll css for anything other than mac
-                if(app.client.isMac !== undefined && !app.client.isMac) {
+                if(self.client.isMac !== undefined && !self.client.isMac) {
                     $(parentSelector + ' ' + menuSelector).addClass('scroll');
                 }
             },
@@ -239,7 +239,7 @@ document.write();
     $(function() {
         // Define qtip options for menus
         var qtipOptions = {
-            content: app.config.user.username,
+            content: self.config.user.username,
             style: {
                 classes: 'qtip-tipsy qtip-shadow',
                 tip: {
@@ -260,8 +260,8 @@ document.write();
      *   This code is executed when the Javascript file is loaded
      *--------------------------------------------------------------------------------------------*/
     
-    // Ensure the app global object exists
-    app = app || {};
+    // Define object of this modules
+    self = {};
     
     /*----------------------------------------------------------------------------------------------
      * APPLICATION FUNCTIONS
@@ -276,12 +276,12 @@ document.write();
      * @param {String} options.cssClass
      * @returns {HTML}
      */
-    app.loaderHandler = function(options) {
+    self.loaderHandler = function(options) {
         // Define options
         options = options || {};
         options.cssClass = options.cssClass || '';
         options.text = options.text || 'Loading Results.';
-        options.loaderImageUrl = options.loaderImageUrl || app.config.loaderImageUrl;
+        options.loaderImageUrl = options.loaderImageUrl || self.config.loaderImageUrl;
         // Define loader
         var loader = $('<div>').addClass('loader ' + options.cssClass).append(
                 $('<img>').prop({'alt': options.text, 'src': options.loaderImageUrl})
@@ -299,7 +299,7 @@ document.write();
      * @param {String} messageContent
      * @returns {String} message
      **/
-    app.messageHandler = function(messageType, messageContent) {
+    self.messageHandler = function(messageType, messageContent) {
         var cssClass = messageType;
         // Determine class
         if(messageType === 'error') {
@@ -319,7 +319,7 @@ document.write();
      * @param {Object} options jQuery ajax options
      * @returns {undefined}
      */
-    app.ajax = function(options) {
+    self.ajax = function(options) {
         // Check if option status code is undefined and define for default 401 callback
         if(options['statusCode'] === undefined ) { options['statusCode'] = {}; }
         // Check if 401 callback is undefined and define default callback below
@@ -341,7 +341,7 @@ document.write();
      * @param {Integer} top
      * @returns {undefined}
      */
-    app.startMobileNavigation = function(contentWrap, menuWrap, top) {
+    self.startMobileNavigation = function(contentWrap, menuWrap, top) {
         // Disable click events on content wrap
         $(contentWrap).find('div.pointer-events').css({'pointer-events':'none'});
         $(contentWrap).find('header.main, header.sub').css({'left': '240px'});
@@ -358,7 +358,7 @@ document.write();
      * @param {Number} top
      * @returns {undefined}
      */
-    app.resetDisplay = function(contentWrap, menuWrap, top) {
+    self.resetDisplay = function(contentWrap, menuWrap, top) {
        $(contentWrap).find('header.main, header.sub').css({'left': '0'});
        $(contentWrap).css({'position':'static', 'left':'0', 'width':'auto', 'min-width':'0'});
        // Enable click events on content wrap
@@ -372,7 +372,7 @@ document.write();
      * @param {String} parentSelector
      * @param {String} activeClass
      */
-   app.activeLink = function(parentSelector, activeClass) {
+   self.activeLink = function(parentSelector, activeClass) {
        // Set uri path
        var urlString = window.location.pathname;
        // Ensure last forward slash exists
@@ -417,7 +417,7 @@ document.write();
    /**
     * PasswordStrength class
     */
-   app.PasswordStrength = function() {
+   self.PasswordStrength = function() {
        'use strict';
 
        /**
@@ -507,4 +507,6 @@ document.write();
        }
    };
 
+   // Return module
+   return self;
 })(jQuery, _);

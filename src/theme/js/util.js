@@ -1,15 +1,11 @@
-(function($, _) {
+module.exports = (function($, _) {
     /*----------------------------------------------------------------------------------------------
      * UTIL INIALIZATION
      *   This code is executed when the Javascript file is loaded
      *--------------------------------------------------------------------------------------------*/
     
-    // Ensure the app global object exists
-    app = app || {};
-    // Create the util namespace
-    app.util = app.util || {};
-    // Create a scoped alias to simplify references
-    var util = app.util;
+    // Define object of this module
+    var self = {};
     
     /*----------------------------------------------------------------------------------------------
      * UTIL FUNCTIONS
@@ -26,7 +22,7 @@
      * // Define column headers, the keys in the export data row above must match with the column header names
      * var columnHeaders = ['column1','column2','column3'];
      * // Call export function
-     * uri = util.exportCsv(exportData,columnHeaders, true);
+     * uri = self.exportCsv(exportData,columnHeaders, true);
      * // Build anchor tag to csv export
      * var anchor = $('<a>').attr({
      *      'download': 'export.csv',
@@ -39,7 +35,7 @@
      * @param {Boolean} includeHeaders boolean indicating if the first row of the CSV should be the column names.
      * @returns {String} uri with data to export
      */
-    util.exportCsv = function(exportData, exportColumns, includeHeaders) {
+    self.exportCsv = function(exportData, exportColumns, includeHeaders) {
         includeHeaders = typeof includeHeaders !== 'undefined' ? includeHeaders : true;
         var csvData = [];
         if(exportData.length > 0 && exportColumns.length > 0) {
@@ -61,7 +57,7 @@
      * 
      * @returns {undefined}
      */
-    util.hideUrlBar = function() {
+    self.hideUrlBar = function() {
         if (window.location.hash.indexOf('#') === -1) {
             window.scrollTo(0, 1);
         }
@@ -70,7 +66,7 @@
     /**
      * @returns {Object} url parameters
      */
-    util.getUrlParameters = function() {
+    self.getUrlParameters = function() {
         var searchString = window.location.search.substring(1)
             , params = searchString.split("&")
             , hash = {}
@@ -94,7 +90,7 @@
      * @param {Function} mouseLeave
      * @returns {undefined}
      */
-    util.hover = function(parentSelector, childSelector, mouseEnter, mouseLeave) {
+    self.hover = function(parentSelector, childSelector, mouseEnter, mouseLeave) {
        $(parentSelector).on({
            mouseenter: function() {
                if(mouseEnter !== null) {
@@ -119,7 +115,7 @@
      * @param {String} excludingSelector, the DOM elment you want to 
      * @returns {undefined}
      */
-    util.preventWindowScroll = function(excludingSelector) {
+    self.preventWindowScroll = function(excludingSelector) {
         if(excludingSelector) {
             $(excludingSelector).on('DOMMouseScroll mousewheel', function(ev) {
                 var $this = $(this),
@@ -160,12 +156,12 @@
     
     /**
      * Disables any events bound to DOMMouseScroll or mousewheel on the html.
-     * This is often used in conjunction with util.preventWindowScroll above for pop up
+     * This is often used in conjunction with self.preventWindowScroll above for pop up
      * menus.
      * 
      * @returns {undefined}
      */
-    util.enableWindowScroll = function() {
+    self.enableWindowScroll = function() {
         $('html').off('DOMMouseScroll mousewheel');
     };
     
@@ -185,7 +181,7 @@
      * @param {Function} opitions.triggerCloseCallback fires when the menus is closed
      * @returns {undefined}
      */
-    util.enableHeadMenus = function(options) {
+    self.enableHeadMenus = function(options) {
         // Click event for showing menu
         $(options.parentSelector).on('click touchstart touch', options.triggerSelector, function(event) {
             event.preventDefault();
@@ -219,14 +215,14 @@
         });
         // Define mouse enter for hover event
         function mouseEnter() {
-            util.preventWindowScroll(options.menuSelector);
+            self.preventWindowScroll(options.menuSelector);
         }
         // Define mouse leave for hover event
         function mouseLeave() {
-            util.enableWindowScroll();
+            self.enableWindowScroll();
         }
         // Hover event for main menus to control window scrolling
-        util.hover(options.parentSelector, options.menuSelector, mouseEnter, mouseLeave);
+        self.hover(options.parentSelector, options.menuSelector, mouseEnter, mouseLeave);
         // Use to control when to hide the opened menus
         function one(target) {
             // Turn off any previous one events to prevent stacking
@@ -260,7 +256,7 @@
      * 
      * @returns {undefined}
      */
-    util.goBack = function() {
+    self.goBack = function() {
         window.history.back();
     };
     
@@ -271,7 +267,7 @@
      * @param {Function} callback
      * @returns {undefined}
      */
-    util.beforeWindowUnload = function(callback) {
+    self.beforeWindowUnload = function(callback) {
         // Define default callback if callback undefinied
         callback = callback || function() {
             return "You have attempted to leave this page. " +
@@ -294,12 +290,12 @@
      *
      * @param {String|jQueryObject} selector
      * @example: 
-     *  namespace.util.sortOptions('select');
+     *  namespace.self.sortOptions('select');
      * @example:
      *  var jquerySelectObject = $('select');
-     *  namespace.util.sortOptions(jquerySelectObject);
+     *  namespace.self.sortOptions(jquerySelectObject);
      */
-    util.sortOptions = function(selector) {
+    self.sortOptions = function(selector) {
         // Define jquery object
         var jqueryObject = $(selector);
         jqueryObject.each(function(index, value) {
@@ -348,7 +344,7 @@
      * @param {String} email
      * @returns {RegExp}
      */
-    util.isEmail = function(email) {
+    self.isEmail = function(email) {
         return /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/.test(email);
     };
 
@@ -365,7 +361,7 @@
     * @param marginLeftStatic string
     * @author Andre Crouch
     */
-    util.stickyElement = function(selector, topOffSet, heightControlModifier, marginTopFixed, marginTopStatic, marginLeftFixed, marginLeftStatic) {
+    self.stickyElement = function(selector, topOffSet, heightControlModifier, marginTopFixed, marginTopStatic, marginLeftFixed, marginLeftStatic) {
        var obj = $(selector);
        $(window).scroll(function() {
            /**
@@ -403,7 +399,7 @@
     };
     
     // Set tzOffset cookie for server to use
-    util.setTimezoneCookie = function() {
+    self.setTimezoneCookie = function() {
         var tzOffset = 'tzOffset';
         var expires = new Date(new Date().getTime() + parseInt(365) * 1000 * 60 * 60 * 24);
         // If the timezone cookie not exists create one.
@@ -440,12 +436,13 @@
      * @param {String} text
      * @param {Number} maxLength
      */
-   util.shorten = function(text, maxLength) {
+   self.shorten = function(text, maxLength) {
        var ret = text;
        if (ret.length > maxLength) {
            ret = ret.substr(0,maxLength-3) + "...";
        }
        return ret;
    };
-   
+
+   return self;
 })(jQuery, _);
